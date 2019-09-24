@@ -4,6 +4,9 @@
     "main": "./build/index.js",
     "description": "Starter kit for node-express-ts",
     "author": "Abhay Kumar <abhay.kumar@qed42.com>",
+    "engines": {
+        "node": "10.15.3"
+    },
     "scripts": {
         "build": "./node_modules/.bin/webpack",
         "server": "tsc && npm run build && nodemon ./build/index.js",
