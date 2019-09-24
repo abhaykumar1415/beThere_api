@@ -73,10 +73,10 @@ class UserController {
 						next(error);
 				});
 
-				const postUser = async (email) => {
+				const postUser = async (email: String) => {
 					UserModel
 					.create({
-						email: req.body.email
+						email: email
 					})
 					.then( async (data) => {
 						console.log('USER CREATED :', data);
