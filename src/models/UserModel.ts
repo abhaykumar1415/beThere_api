@@ -1,6 +1,6 @@
 import * as connections from '../config/connection';
 import { Schema, Document } from 'mongoose';
-
+import Status from '../services/status';
 /**
  * @export
  * @interface IUserModel
@@ -14,14 +14,51 @@ export interface IUserModel extends Document {
 }
 
 const UserSchema: Schema = new Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
+	email: {
+		type: String,
+		required: true
+	},
+	attendance: [
+		{
+			timestamp: {
+				type: Date,
+				default: new Date()
+			},
+			monthNubmer: {
+				type: String,
+				default: new Date().getMonth() + 1
+			},
+			monthName: {
+				type: String,
+				default: new Date().toLocaleDateString('en-US', { month: 'short',timeZone: 'UTC' })
+			},
+			year: {
+				type: String,
+				default: new Date().getFullYear()
+			},
+			date: {
+				type: String,
+				default: new Date().getDate()
+			},
+			dayNumber: {
+				type: String,
+				default: new Date().getDay()
+			},
+			dayName: {
+				type: String,
+				default: new Date().toDateString().split(' ')[0]
+			},
+			time: {
+				type: String,
+				default: new Date().getHours() + ":" + new Date().getMinutes()
+			},
+			status: {
+				type: String,
+				default: Status.PRESENT
+			}
+
+		}
+	],
 }, {
     collection: 'User',
     versionKey: false,
