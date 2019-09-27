@@ -11,6 +11,7 @@
         "server": "tsc && npm run build && nodemon ./build/index.js",
         "start": "node ./build/index.js",
         "ts:watch": "tsc -w",
+        "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "files": [
