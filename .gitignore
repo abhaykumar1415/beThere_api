@@ -50,6 +50,4 @@ typings/
 .DS_Store
 
 # Build Folder
-build
-
-dist
+# build
