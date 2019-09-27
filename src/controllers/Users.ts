@@ -54,7 +54,7 @@ class UserController {
 							let time = minutesPre  ? hrs + ":0" +min  : hrs + ":" + min;
 							return time;
 						}
-						
+
 						let attendance = {
 							timestamp: new Date(),
 							monthNubmer:new Date().getMonth() + 1,
@@ -66,7 +66,6 @@ class UserController {
 							time: returnCurrentDate(),
 							status: STATUS.PRESENT
 						}
-						console.log('attendance :', attendance);
 						UserModel.update(
 							req.params,
 							{$push: {attendance: attendance}}
