@@ -45,7 +45,8 @@ class UserController {
 					let isValid = CheckDistance.isValidDistance(req.body.geoLocation.lat, req.body.geoLocation.lng);
 					console.log('isValid  in controller:', isValid);
 				if (req.body.status  && req.body.geoLocation) {
-					if (req.body.status === 'present' && isValid ) {
+					if (req.body.status.toLocaleLowerCase() === 'present' && isValid ) {
+						console.log('1');
 						const returnCurrentDate = () => {
 							let hrs = new Date().getHours();
 							let minutesPre = new Date().getMinutes() < 10 ? true : false;
@@ -53,6 +54,7 @@ class UserController {
 							let time = minutesPre  ? hrs + ":0" +min  : hrs + ":" + min;
 							return time;
 						}
+						
 						let attendance = {
 							timestamp: new Date(),
 							monthNubmer:new Date().getMonth() + 1,
@@ -64,11 +66,13 @@ class UserController {
 							time: returnCurrentDate(),
 							status: STATUS.PRESENT
 						}
+						console.log('attendance :', attendance);
 						UserModel.update(
 							req.params,
 							{$push: {attendance: attendance}}
 							)
 							.then((update) => {
+								console.log('Updatd');
 									res.status(200).json({ success: true });
 							})
 							.catch((error: Error) => {
