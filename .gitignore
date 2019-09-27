@@ -51,3 +51,5 @@ typings/
 
 # Build Folder
 build
+
+dist
