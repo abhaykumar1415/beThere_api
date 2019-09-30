@@ -97,11 +97,6 @@ class UserController {
 									res.status(200).json({ success : false, data: data });
 								} else {
 
-
-
-
-									// data.attendance = [];
-									// res.status(200).json({ attendanceMarked : false, data: data });
 									const returnCurrentDate = () => {
 										let hrs = new Date(indiaTime).getHours();
 										let minutesPre = new Date(indiaTime).getMinutes() < 10 ? true : false;
@@ -146,16 +141,53 @@ class UserController {
 								});
 								next(error);
 						});
-					} else {
-						if (!isValid) {
+					} else if (req.body.status.toLocaleLowerCase() === 'present' && !isValid ) {
+						// if (!isValid) {
 							res.status(200).json({
 								success: false,
 								msg: "Please be in office premises to log attendance.",
 							});
-						} else {
+						}  else if (req.body.status.toLocaleLowerCase() === 'wfh') {
+							const returnCurrentDate = () => {
+								let hrs = new Date(indiaTime).getHours();
+								let minutesPre = new Date(indiaTime).getMinutes() < 10 ? true : false;
+								let min = new Date(indiaTime).getMinutes();
+								let time = minutesPre  ? hrs + ":0" +min  : hrs + ":" + min;
+								return time;
+							}
+	
+							let attendance = {
+								timestamp: new Date(indiaTime),
+								monthNubmer:new Date(indiaTime).getMonth() + 1,
+								monthName: new Date(indiaTime).toLocaleDateString('en-US', { month: 'short',timeZone: 'UTC' }),
+								year:  new Date(indiaTime).getFullYear(),
+								date: new Date(indiaTime).getDate(),
+								dayNumber: new Date(indiaTime).getDay(),
+								dayName: new Date(indiaTime).toDateString().split(' ')[0],
+								time: returnCurrentDate(),
+								status: STATUS.WFH
+							}
+
+							UserModel.update(
+								req.params,
+								{$push: {attendance: attendance}}
+								)
+								.then((update) => {
+										res.status(200).json({ success: true, msg: Greetings.show() });
+								})
+								.catch((error: Error) => {
+									res.status(200).json({
+											success: false,
+											msg: error.message,
+											errorStack: error.stack
+									});
+									next(error);
+							});
+						}
+						else {
 							throw 'Bad Request';
 						}
-					}
+					// }
 				} // main if
 				else {
 					throw 'Bad Request';
