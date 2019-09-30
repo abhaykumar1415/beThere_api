@@ -23,6 +23,7 @@ class UserController {
 
     public meToday(req: express.Request, res: express.Response, next: express.NextFunction): void {
 			try {
+			let indiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
 			UserModel
 				.findOne(
 					req.params,
@@ -36,7 +37,7 @@ class UserController {
 							res.status(200).json({ attendanceMarked : false, data: data });
 						} else {
 							let latestAttendance: any  = data.attendance[attendanceLength - 1];
-							let todayDate = new Date().toDateString();
+							let todayDate = new Date(indiaTime).toDateString();
 							let thatDate = new Date(latestAttendance.timestamp).toDateString();
 							if (todayDate == thatDate) {
 								data.attendance = latestAttendance;
@@ -63,6 +64,7 @@ class UserController {
 
     public async updateUser(req: express.Request, res: express.Response, next: express.NextFunction) {
 				let updatePayload: any = {};
+				let indiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
 				try {
 					let isValid = CheckDistance.isValidDistance(req.body.geoLocation.lat, req.body.geoLocation.lng);
 				if (req.body.status  && req.body.geoLocation) {
@@ -81,7 +83,7 @@ class UserController {
 									validRequest = true;
 								} else  {
 									let latestAttendance: any  = data.attendance[attendanceLength - 1];
-									let todayDate = new Date().toDateString();
+									let todayDate = new Date(indiaTime).toDateString();
 									let thatDate = new Date(latestAttendance.timestamp).toDateString();
 									if (todayDate == thatDate) {
 										data.attendance = latestAttendance;
@@ -101,21 +103,21 @@ class UserController {
 									// data.attendance = [];
 									// res.status(200).json({ attendanceMarked : false, data: data });
 									const returnCurrentDate = () => {
-										let hrs = new Date().getHours();
-										let minutesPre = new Date().getMinutes() < 10 ? true : false;
-										let min = new Date().getMinutes();
+										let hrs = new Date(indiaTime).getHours();
+										let minutesPre = new Date(indiaTime).getMinutes() < 10 ? true : false;
+										let min = new Date(indiaTime).getMinutes();
 										let time = minutesPre  ? hrs + ":0" +min  : hrs + ":" + min;
 										return time;
 									}
 			
 									let attendance = {
-										timestamp: new Date(),
-										monthNubmer:new Date().getMonth() + 1,
-										monthName: new Date().toLocaleDateString('en-US', { month: 'short',timeZone: 'UTC' }),
-										year:  new Date().getFullYear(),
-										date: new Date().getDate(),
-										dayNumber: new Date().getDay(),
-										dayName: new Date().toDateString().split(' ')[0],
+										timestamp: new Date(indiaTime),
+										monthNubmer:new Date(indiaTime).getMonth() + 1,
+										monthName: new Date(indiaTime).toLocaleDateString('en-US', { month: 'short',timeZone: 'UTC' }),
+										year:  new Date(indiaTime).getFullYear(),
+										date: new Date(indiaTime).getDate(),
+										dayNumber: new Date(indiaTime).getDay(),
+										dayName: new Date(indiaTime).toDateString().split(' ')[0],
 										time: returnCurrentDate(),
 										status: STATUS.PRESENT
 									}
@@ -136,10 +138,7 @@ class UserController {
 											});
 											next(error);
 									});
-
-
-
-									
+							
 								}
 							}).catch((error: Error) => {
 								res.status(400).json({
@@ -147,17 +146,6 @@ class UserController {
 								});
 								next(error);
 						});
-
-
-
-
-
-
-
-
-
-				
-
 					} else {
 						if (!isValid) {
 							res.status(200).json({
@@ -174,7 +162,7 @@ class UserController {
 				}
 			}
 			catch (err ) {
-				res.status(500).json({
+				res.status(200).json({
 					success: false,
 					msg: err,
 				});
