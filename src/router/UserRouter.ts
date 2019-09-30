@@ -17,6 +17,7 @@ export default class UserRouter {
      */
     public routes(): void {
         this.router.get('/', UserController.getAllUsers);
+        this.router.get('/meToday/:_id', UserController.meToday);
         this.router.post('/', UserController.createUser);
         this.router.put('/:_id', UserController.updateUser);
     }
