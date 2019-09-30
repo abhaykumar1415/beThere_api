@@ -40,21 +40,21 @@ class UserController {
 							let thatDate = new Date(latestAttendance.timestamp).toDateString();
 							if (todayDate == thatDate) {
 								data.attendance = latestAttendance;
-								res.status(400).json({ attendanceMarked : true, data: data });
+								res.status(200).json({ attendanceMarked : true, data: data });
 							} else {
 								data.attendance = [];
 								res.status(200).json({ attendanceMarked : false, data: data });
 							}
 						}
 				}).catch((error: Error) => {
-					res.status(400).json({
+					res.status(200).json({
 							error: error,
 					});
 					next(error);
 			});
 			}
 			catch(error) {
-				res.status(400).json({
+				res.status(200).json({
 					error: error
 			});
 			}
@@ -92,7 +92,7 @@ class UserController {
 
 								}
 								if (!validRequest) {
-									res.status(400).json({ success : false, data: data });
+									res.status(200).json({ success : false, data: data });
 								} else {
 
 
@@ -129,7 +129,7 @@ class UserController {
 												res.status(200).json({ success: true, msg: Greetings.show() });
 										})
 										.catch((error: Error) => {
-											res.status(500).json({
+											res.status(200).json({
 													success: false,
 													msg: error.message,
 													errorStack: error.stack
@@ -160,7 +160,7 @@ class UserController {
 
 					} else {
 						if (!isValid) {
-							res.status(400).json({
+							res.status(200).json({
 								success: false,
 								msg: "Please be in office premises to log attendance.",
 							});
