@@ -1,6 +1,7 @@
 const Status = Object.freeze({
   PRESENT: "present",
-  WFH: "WFH"
+  WFH: "wfh",
+  LATE: "late"
 });
 
 export default Status

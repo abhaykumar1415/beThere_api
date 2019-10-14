@@ -5,7 +5,7 @@ import * as serverHandlers from './serverHandlers';
 
 debug('ts-express:server');
 
-const port: string | number | boolean = serverHandlers.normalizePort(process.env.PORT || 4000);
+const port: string | number | boolean = serverHandlers.normalizePort(process.env.PORT || 3000);
 
 Server.set('port', port);
 

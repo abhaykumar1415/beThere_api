@@ -55,6 +55,10 @@ const UserSchema: Schema = new Schema({
 			status: {
 				type: String,
 				default: Status.PRESENT
+			},
+			wfhReason: {
+				type: String,
+				default: null
 			}
 
 		}
